@@ -1,19 +1,24 @@
 import { stringify } from "querystring"
-import React, { useState } from "react"
+import React, { DetailedHTMLProps, MouseEventHandler, useState } from "react"
 
 export interface searchProps {
     searchUsers: (userName: string) => void,
     clearSearchUsers: () => void,
+    showClear: boolean,
 }
 
-export function Search({searchUsers, clearSearchUsers}: searchProps){
+export function Search({ searchUsers, clearSearchUsers, showClear}: searchProps){
     const [text, setText] = useState('')
+    const [searched, setSearched] = useState(false)
 
     function onFormSubmit(e: React.FormEvent<HTMLFormElement>){
         e.preventDefault()
         searchUsers(text)
         setText('')
+        
     }
+
+
 
     return (
         <>
@@ -22,7 +27,8 @@ export function Search({searchUsers, clearSearchUsers}: searchProps){
 
                 <div className="flex gap-3 flex-row w-full">
                     <button type="submit" className="bg-[#333] text-[#fff] py-1 px-2 text-sm cursor-pointer my-2 w-full rounded-md h-8 hover:bg-zinc-500 border-2 border-zinc-300 hover:border-zinc-800 hover:text-zinc-800 transition-colors font-bold hover:font-bold">Search</button>
-                    <button onClick={clearSearchUsers} className="bg-[#333] text-[#fff] py-1 px-2 text-sm cursor-pointer my-2 w-full rounded-md h-8 hover:bg-zinc-500 border-2 border-zinc-300 hover:border-zinc-800 hover:text-zinc-800 transition-colors font-bold hover:font-bold">Clear</button>
+                    {showClear ? <button onClick={() => clearSearchUsers } className="bg-red-800 text-[#fff] py-1 px-2 text-sm cursor-pointer my-2 w-full rounded-md h-8 hover:bg-red-300 border-2 border-zinc-300 hover:border-zinc-800 hover:text-zinc-800 transition-colors font-bold hover:font-bold">Clear</button>:null}
+                
                 </div>
             </form>
             
