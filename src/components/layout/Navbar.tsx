@@ -1,6 +1,7 @@
 import { GitBranch } from "phosphor-react"
 import React from "react"
 
+
 type NavbarProps = {
     title: string
 } & typeof defaultProps;
@@ -16,6 +17,7 @@ export function Navbar( {title}: NavbarProps ){
                 <GitBranch className="w-4 h-4"/>
                 {title}
             </h1>
+
         </nav>
     )   
 }
