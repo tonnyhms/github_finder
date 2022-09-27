@@ -11,7 +11,6 @@ import { ToastContainer, toast } from  'react-toastify'
 import { Alert } from './components/layout/Alert'
 import { About } from './components/pages/About'
 import { User } from './components/users/User'
-import { string } from 'prop-types'
 
 //the teacher created a "clearSearch" function that erased the users array, but I did a "searched" state that tells me if it has just rendered (componentDidMount) or if you've searched for something (state goes to true at the "searchUsers function")
 
@@ -19,7 +18,7 @@ class App extends Component {
 
   state = {
     users: [],
-    user: {},
+    user: { },
     loading: false,
     searched: false,
     notNullSearchText: false,
@@ -45,12 +44,12 @@ class App extends Component {
 
   //Get single Github user
   getUser = async (username: string) => {
-      this.setState({ loading: true }) 
+    this.setState({ loading: true }) 
 
-      const res = await api.get(`/users/${username}?client_id=${import.meta.env.VITE_GITHUB_CLIENT_ID}&client_secret=${import.meta.env.VITE_GITHUB_CLIENT_SECRET}`)
-      console.log(res.data)
+    const res = await api.get(`/users/${username}?client_id=${import.meta.env.VITE_GITHUB_CLIENT_ID}&client_secret=${import.meta.env.VITE_GITHUB_CLIENT_SECRET}`)
     
-      this.setState({ user: res.data, loading: false, searched: true })
+    this.setState({ user: res.data, loading: false, searched: true })
+    console.log(this.state.user)
   }
 
   //this method is to clear my users search, but as i'm using the componentDidMount as the "clear", i'm leaving this method just for my knowledge
@@ -80,13 +79,13 @@ class App extends Component {
                     showClear={ searched } 
                     setAlert={this.setAlert.bind(this)}
                   />
-                  <Users loading={ loading } users={ users } getUser={ this.getUser } />
+                  <Users loading={loading} users={users}/>
                 </>  
               }/>
               <Route path='/about' element={<About/>}/>
               <Route  path='/user/:login' element={ 
-                  <User {...this.props} user={ user } searched={ searched }/>
-
+                  <User {...this.props} getUser={this.getUser} user={user} loading={loading}/>
+                
               } />
             </Routes>
           </div>
